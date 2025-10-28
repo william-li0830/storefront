@@ -1,8 +1,10 @@
 BankAccount.class
-BuyableClothing.class
 Store.class
-BuyableGame.class
-Buyable.class
-BuyableFood.class
+buyable\Buyable.class
+buyable\BuyableFood.class
 StoreInventory.class
+buyable\BuyableGame.class
+buyable\BuyableClothing.class
+buyable\BuyableElectronics.class
+buyable\itemsSold.class
 Runner.class

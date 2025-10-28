@@ -1,4 +1,5 @@
 
+import buyable.Buyable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,7 +8,7 @@ public class Store {
     
     // User data variables
     private BankAccount myBankAccount;
-    private ArrayList<Buyable> myStuff;
+    private ArrayList<Buyable> myInventory;
     private ArrayList<Buyable> myShoppingCart;
     
     // Store data variables
@@ -24,7 +25,7 @@ public class Store {
     private void setupAccounts()
     {
         setupBankAccount();
-        myStuff = new ArrayList<Buyable>();
+        myInventory = new ArrayList<Buyable>();
         myShoppingCart = new ArrayList<Buyable>();
     }
     
@@ -76,9 +77,34 @@ public class Store {
                     reviewFinancials();
                     break;
                 case 6:
-                    System.out.println("YOUR CONTENT HERE! :) :)");
+                    // TODO 4a: viewRecentPurchases();
+                    // report the 3 (or fewer) most recent items they bought in the store
                     break;
                 case 7:
+                    // TODO 5: returnItems();
+                    // Give the list of items that can be returned (your inventory)
+                    // Type the name of item to return
+                        // User - remove item from inventory and give back money
+                        // Inventory - add the item back to the inventory
+                    // TODO 5a: You can only return the most recent 3 purchases (depends on TODO 4a)
+                    break;
+                case 8:
+                    // TODO 6: adminPortal();
+                    // Access the store’s database as an ‘Administrator’ and add custom items to its inventory
+                    // equire the user to login as admin from the start of the program and only show that menu option if that is the account they log in under.
+                    // Example:
+                    // Please enter admin password:
+                    // If password is correct, give a another set of menu
+                    // 1. Review all items in inventory
+                    // 2. Add items to inventory
+                    // 3. Remove items from inventory
+                    
+                    break;
+                case 9:
+                    // TODO 7: custom idea
+                    System.out.println("YOUR CONTENT HERE! :) :)");
+                    break;
+                case 10:
                     System.out.println("Thanks for shopping! Now exiting program ... ");
                     System.exit(0);                    
                     break;
@@ -93,7 +119,18 @@ public class Store {
     private void viewCatalog()
     {
         System.out.println("Here is a list of all the items currently for sale!");
-        
+
+        // TODO 2: choose which sub-catalog they want to view individually.
+        // Example:
+        // 1. View all by name
+        // 2. View by type
+            // 1. Clothing
+            // 2. Food
+            
+        // TODO 2a: provide the user another menu to choose which specific item they want to view more details about individually.
+        // Example:
+        // 3. Enter the name of the item for more details
+
         // Retrieve the master list from the store inventory and examine each entry individually
         for(Buyable item: storeInventory.getFullInventoryList()) 
         {
@@ -156,10 +193,23 @@ public class Store {
 
     private void reviewMyInventory()
     {
+        // TODO 3: gives the user more choice and information when reviewing their stuff
+        // Example: price, custom property, purchase time (optional)
+        
+        // TODO 3a: create the menuing needed for the user to view any detail of every item they own. 
+        // Hint: Use methods to create sub-menus for categories of things.
+
+        // 1. View all items
+        // 2. View by type
+        //  // 1. Clothing
+            // 2. Food
+        // 3. Type in the item for more details
+        
+        
         System.out.println("Here is a list of the items you now own: ");
-        for(int i = 0; i < myStuff.size(); i++)
+        for(int i = 0; i < myInventory.size(); i++)
         {
-            System.out.println("" + myStuff.get(i).getItemName());
+            System.out.println("" + myInventory.get(i).getItemName());
         }
     }
     
@@ -244,7 +294,7 @@ public class Store {
     private void moveItemToShoppingCart(Buyable item)
     {
         myShoppingCart.add(item);
-        storeInventory.removeItemFromInventory(item);
+        storeInventory.removeItemFromInventory(item, false);
     }
     
     private void moveItemFromShoppingCartToInventory(Buyable item)
@@ -261,8 +311,8 @@ public class Store {
         {
             myBankAccount.makePurchase(item.getPrice());
             System.out.println("Purchase complete! You now own " + item.getItemName());
-            myStuff.add(item);
-            storeInventory.removeItemFromInventory(item);
+            myInventory.add(item);
+            storeInventory.removeItemFromInventory(item, true);
         }
         else
         {
@@ -277,7 +327,7 @@ public class Store {
         {
             myBankAccount.makePurchase(item.getPrice());
             System.out.println("Purchase complete! You now own " + item.getItemName());
-            myStuff.add(item);
+            myInventory.add(item);
             myShoppingCart.remove(item);
         }
         else
