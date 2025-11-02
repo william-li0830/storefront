@@ -48,7 +48,7 @@ public class Store {
             System.out.println("2. Buy an item");
             System.out.println("3. View your cart of held items");
             System.out.println("4. Review the items you already own");
-            System.out.println("5.View recently purchased items");
+            System.out.println("5. View recently purchased items");
             System.out.println("6. View the status of your financials");
             System.out.println("7. YOUR CUSTOM IDEA HERE??");
             System.out.println("8. Exit program");
@@ -69,12 +69,13 @@ public class Store {
                 case 4:
                     reviewMyInventory();
                     break;
+                // ML: swap case 5 and case 6
                 case 5:
                     reviewFinancials();
                     break;
                 case 6:
                     viewRecentPurchases();
-                    // report the 3 (or fewer) most recent items 
+                    // report the 3 (or fewer) most recent items
                     break;
                 case 7:
                     // TODO 5: returnItems();
@@ -86,8 +87,10 @@ public class Store {
                     break;
                 case 8:
                     // TODO 6: adminPortal();
-                    // Access the store’s database as an ‘Administrator’ and add custom items to its inventory
-                    // equire the user to login as admin from the start of the program and only show that menu option if that is the account they log in under.
+                    // Access the store’s database as an ‘Administrator’ and add custom items to its
+                    // inventory
+                    // equire the user to login as admin from the start of the program and only show
+                    // that menu option if that is the account they log in under.
                     // Example:
                     // Please enter admin password:
                     // If password is correct, give a another set of menu
@@ -113,40 +116,44 @@ public class Store {
     }
 
     private void viewCatalog() {
-        //System.out.println("Here is a list of all the items currently for sale!");
-        
-            System.out.println("1.View by name");
-            System.out.println("2.View by type");
-            System.out.println("3.View by price");
-        
+        // System.out.println("Here is a list of all the items currently for sale!");
+
+
+        System.out.println("1.View by name");
+        System.out.println("2.View by type");
+        System.out.println("3.View by price");
+
         int input = scan.nextInt();
 
+        // TODO 2: choose which sub-catalog they want to view individually.
         switch (input) {
             case 1:
-                viewByName();
+                vewCatalogByName();
                 break;
             case 2:
-                viewByType();
+                viewCatalogByType();
                 break;
             case 3:
-                viewByPrice();
+                viewCatalogByPrice();
                 break;
             default:
                 System.out.println("Incorrect input. Choose again!");
                 break;
         }
 
-        // TODO 2a: provide the user another menu to choose which specific item they want to view more details about individually.
+        // TODO 2a: provide the user another menu to choose which specific item they
+        // want to view more details about individually.
         // Retrieve the master list for example:
         // 3. Enter the name of the item for more details
-        // Retrieve the master list from the store inventory and examine each entry individually
-        
-//        for (Buyable item : storeInventory.getFullInventoryList()) {
-//            System.out.println("" + item.getItemName());
-//        }
-//        System.out.println("" + myInventory.get(i).getItemName());
-//        System.out.println("" + myInventory.get(i).getPrice());
-//        System.out.println("" + myInventory.get(i).getItemCategory());
+        // Retrieve the master list from the store inventory and examine each entry
+        // individually
+
+        // for (Buyable item : storeInventory.getFullInventoryList()) {
+        // System.out.println("" + item.getItemName());
+        // }
+        // System.out.println("" + myInventory.get(i).getItemName());
+        // System.out.println("" + myInventory.get(i).getPrice());
+        // System.out.println("" + myInventory.get(i).getItemCategory());
     }
 
     private void buyItem() {
@@ -195,15 +202,17 @@ public class Store {
         // TODO 3: gives the user more choice and information when reviewing their stuff
         // Example: price, custom property, purchase time (optional)
 
-        // TODO 3a: create the menuing needed for the user to view any detail of every item they own. 
+        // TODO 3a: create the menuing needed for the user to view any detail of every
+        // item they own.
         // Hint: Use methods to create sub-menus for categories of things.
         // 1. View all items
         // 2. View by type
-        //  // 1. Clothing
+        // // 1. Clothing
         // 2. Food
         // 3. Type in the item for more details
         System.out.println("Here is a list of the items you now own: ");
         for (int i = 0; i < myInventory.size(); i++) {
+            // ML: print them on one line
             System.out.println("" + myInventory.get(i).getItemName());
             System.out.println("" + myInventory.get(i).getPrice());
             System.out.println("" + myInventory.get(i).getItemCategory());
@@ -309,15 +318,16 @@ public class Store {
         }
     }
 
-    private void viewByName() {
+    // ML: implement these functions
+    private void vewCatalogByName() {
         System.out.println("Here are the items by name: ");
     }
 
-    private void viewByType() {
+    private void viewCatalogByType() {
         System.out.println("Here are the items by type: ");
     }
 
-    private void viewByPrice() {
+    private void viewCatalogByPrice() {
         System.out.println(" Here are items by price: ");
     }
 }

@@ -13,6 +13,7 @@ public class StoreInventory {
     private ArrayList<BuyableGame> gamesForSale = new ArrayList<BuyableGame>();
     private ArrayList<BuyableElectronics> electronicsForSale = new ArrayList<BuyableElectronics>();
     private ArrayList<Buyable> recentPurchases = new ArrayList<Buyable>();
+    // ML: private, no static
     public static ArrayList<Buyable> soldItems = new ArrayList<Buyable>();
 
     public StoreInventory() {
@@ -73,8 +74,10 @@ public class StoreInventory {
     }
     //isPurchased  = true;
 
+    // ML: just getItemsSold(), no arguments needed
     public ArrayList<Buyable> getItemsSold(Buyable item, boolean isPurchased) {
 
+        // ML: return the items from the soldItems list
         if (isPurchased = true) {
             System.out.println("Sold items: ");
             System.out.println(soldItems);
@@ -83,6 +86,7 @@ public class StoreInventory {
     }
 
     public void viewRecentPurchases() {
+        // ML: incomplete, recentPurchases is always empty
         System.out.println("Recently purchased: ");
         getRecentPurchases();
         System.out.println(recentPurchases);
@@ -98,8 +102,10 @@ public class StoreInventory {
         } else if (item instanceof BuyableFood) {
             foodForSale.add((BuyableFood) item);
         } else if (item instanceof BuyableGame) {
+            // ML: change remove to add
             foodForSale.remove((BuyableGame) item);
         }
+        // ML: add electronics here
     }
 
     // Methods to populate the inventory
@@ -206,5 +212,7 @@ public class StoreInventory {
                 gamesForSale.add((BuyableGame) item);
             }
         }
+
+        // ML: add electronics here
     }
 }

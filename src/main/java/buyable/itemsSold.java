@@ -6,6 +6,7 @@ import java.util.ArrayList;
  *
  * @author william.li
  */
+// ML: dont need this class
 class itemsSold extends Buyable {
 
     public ArrayList<Buyable> soldItems = new ArrayList<Buyable>();
