@@ -2,7 +2,7 @@ package buyable;
 
 /**
  *
- * @author willi
+ * @author William
  */
 public class BuyableElectronics extends Buyable {
     private String brandName;

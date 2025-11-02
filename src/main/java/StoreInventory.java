@@ -13,6 +13,7 @@ public class StoreInventory {
     private ArrayList<BuyableGame> gamesForSale = new ArrayList<BuyableGame>();
     private ArrayList<BuyableElectronics> electronicsForSale = new ArrayList<BuyableElectronics>();
     private ArrayList<Buyable> recentPurchases = new ArrayList<Buyable>();
+    public static ArrayList<Buyable> soldItems = new ArrayList<Buyable>();
 
     public StoreInventory() {
         populateClothesInventory();
@@ -44,6 +45,7 @@ public class StoreInventory {
         fullInventory.addAll(clothesForSale);
         fullInventory.addAll(foodForSale);
         fullInventory.addAll(gamesForSale);
+        fullInventory.addAll(electronicsForSale);
 
         return fullInventory;
     }
@@ -65,22 +67,24 @@ public class StoreInventory {
             foodForSale.remove((BuyableFood) item);
         } else if (item instanceof BuyableGame) {
             foodForSale.remove((BuyableGame) item);
+        } else if (item instanceof BuyableElectronics) {
+            electronicsForSale.remove((BuyableElectronics) item);
         }
-        isPurchased = true;
     }
+    //isPurchased  = true;
 
     public ArrayList<Buyable> getItemsSold(Buyable item, boolean isPurchased) {
-        
+
         if (isPurchased = true) {
             System.out.println("Sold items: ");
-            //System.out.println(soldItems);
+            System.out.println(soldItems);
         }
-        //return 0;
-        return null;
+        return soldItems;
     }
 
     public void viewRecentPurchases() {
         System.out.println("Recently purchased: ");
+        getRecentPurchases();
         System.out.println(recentPurchases);
     }
 
@@ -139,14 +143,13 @@ public class StoreInventory {
         foodForSale.add(noodles);
         BuyableFood rice = new BuyableFood(7.99, "Rice", 2000);
         addMultiple(rice, 5);
-
     }
 
     private void populateGamesInventory() {
         // Master list of all games held in the store on opening
 
         // Board games
-        BuyableGame monopoly = new BuyableGame(19.99, "Monopoly", 4, "Board Game");
+        BuyableGame monopoly = new BuyableGame(19.99, "Monopoly:", 4, "Board Game");
         gamesForSale.add(monopoly);
         BuyableGame scrabble = new BuyableGame(24.99, "Scrabble", 2, "Board Game");
         gamesForSale.add(scrabble);
