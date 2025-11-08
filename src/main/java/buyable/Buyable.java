@@ -8,8 +8,6 @@ public class Buyable {
     private String itemName;
     private String itemCategory;
     
-    public boolean isPurchased;
-    
     public Buyable(double price, String name, String category)
     {
         this.price = price;

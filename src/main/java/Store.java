@@ -142,20 +142,21 @@ public class Store {
     }
 
     private void viewCatalog() {
-        System.out.println("1.View all by name");
-        System.out.println("2.View by category");
+        System.out.println("1. View all by name");
+        System.out.println("2. View by category");
 
-        int input = scan.nextInt();
+        String input = scan.nextLine();
 
         switch (input) {
-            case 1:
+            case "1":
                 viewAllCatalog();
                 break;
-            case 2:
+            case "2":
                 viewCatalogByCategory();
                 break;
             default:
-                System.out.println("Incorrect choice");
+                System.out.println("Invalid choice: choose again!");
+                viewCatalog();
                 break;
         }
 
@@ -209,20 +210,57 @@ public class Store {
 
     }
 
-    // TODO 3: Instead of just reporting everything the user has bought all at once, 
-    // provide a more customized experience that gives the user more choice and information when reviewing their stuff.
     private void reviewMyInventory() {
-        // TODO 3a: create the menuing needed for the user to view any detail of every
-        // item they own.
-        // Hint: Use methods to create sub-menus for categories of things.
-        // 1. View all items - no details, just name
-        // 2. View by type - same as viewcatalg
-        // // 1. Clothing
-        // // 2. Food
-        // 3. Type in the item for more details - scan -> printItemDetails
-        System.out.println("Here is a list of the items you now own: ");
-        for (Buyable item : myInventory) {
-            printItemDetails(item);
+        System.out.println("1. View all items by name");
+        System.out.println("2. View by category");
+        System.out.println("3. Type in item name for more details");
+
+        String choice = scan.nextLine();
+
+        switch (choice) {
+            case "1":
+                for (Buyable item : myInventory) {
+                    System.out.println(item.getItemName());
+                }
+                break;
+            case "2":
+                System.out.println("Select from the following: ");
+                System.out.println("Food");
+                System.out.println("Clothing");
+                System.out.println("Game");
+                System.out.println("Electronics");
+
+                String category = scan.nextLine();
+
+                for (Buyable item : myInventory) {
+                    if (item.getItemCategory().equalsIgnoreCase(category)) {
+                        System.out.println(item.getItemName());
+                    }
+                }
+
+                break;
+            case "3":
+                System.out.println("Type in item name");
+
+                String userInput = scan.nextLine();
+                boolean itemFound = false;
+
+                for (Buyable item : myInventory) {
+                    if (item.getItemName().equalsIgnoreCase(userInput)) {
+                        printItemDetails(item);
+                        itemFound = true;
+                    }
+                }
+
+                if (!itemFound) {
+                    System.out.println("Item doesn't exist in your inventory");
+                }
+                break;
+            default:
+                System.out.println("Invalid choice: choose again!");
+                reviewMyInventory();
+                break;
+
         }
     }
 
@@ -236,7 +274,6 @@ public class Store {
     private void reviewFinancials() {
         myBankAccount.balanceReport();
     }
-
 
     private void adminPortal() {
         System.out.println("Welcome to the Admin Portal");
@@ -264,7 +301,6 @@ public class Store {
             // 1. Review all items in inventory
             // 2. Add items to inventory
             // 3. Remove items from 
-            
             System.out.println("Which of these categories do you want to add items to?");
             System.out.println("1. Food");
             System.out.println("2. Clothes");
@@ -390,36 +426,15 @@ public class Store {
 
     private void viewCatalogByCategory() {
         System.out.println("Select from the following: ");
-        System.out.println("1. Food");
-        System.out.println("2. Clothing");
-        System.out.println("3. Game");
-        System.out.println("4. Electronics");
+        System.out.println("Food");
+        System.out.println("Clothing");
+        System.out.println("Game");
+        System.out.println("Electronics");
 
-        int input = scan.nextInt();
-        scan.nextLine();
-
-        String category;
-        switch (input) {
-            case 1:
-                category = "Food";
-                break;
-            case 2:
-                category = "Clothing";
-                break;
-            case 3:
-                category = "Game";
-                break;
-            case 4:
-                category = "Electronics";
-                break;
-            default:
-                category = "";
-                System.err.println("Invalid choice");
-                break;
-        }
+        String category = scan.nextLine();
 
         for (Buyable item : storeInventory.getFullInventoryList()) {
-            if (item.getItemCategory().equals(category)) {
+            if (item.getItemCategory().equalsIgnoreCase(category)) {
                 System.out.println(item.getItemName());
             }
         }
