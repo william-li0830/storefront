@@ -82,7 +82,7 @@ public class Store {
             System.out.println("4. Review the items you already own");
             System.out.println("5. View recently purchased items");
             System.out.println("6. View the status of your financials");
-            System.out.println("7. YOUR CUSTOM IDEA HERE??");
+            System.out.println("7. Return an item");
             System.out.println("8. Exit program");
 
             int input;
@@ -115,22 +115,11 @@ public class Store {
                     break;
                 case 6:
                     reviewFinancials();
-                    // report the 3 (or fewer) most recent items
                     break;
                 case 7:
-                    // TODO 5: returnItems();
-                    // Give the list of items that can be returned (your inventory)
-                    // Type the name of item to return
-                    // User - remove item from inventory and give back money
-                    // Inventory - add the item back to the inventory
-                    // TODO 5a: You can only return the most recent 3 purchases (depends on TODO 4a)
+                    returnItem();
                     break;
-
                 case 8:
-                    // TODO 7: custom idea
-                    System.out.println("YOUR CONTENT HERE! :) :)");
-                    break;
-                case 9:
                     System.out.println("Thanks for shopping! Now exiting program ... ");
                     System.exit(0);
                     break;
@@ -202,12 +191,36 @@ public class Store {
             } else {
                 System.out.println("Incorrect input. Purchase cancelled.");
             }
-
         } else // No suitable item found
         {
             System.out.println("The item you are looking for is sold out or does not exist, sorry!");
         }
+    }
 
+    private void returnItem() {
+        System.out.println("Here are items you can return");
+        for (Buyable item : myInventory) {
+            System.out.println(item.getItemName());
+        }
+        
+        System.out.println();
+        System.out.println("Type in the name of item you want to return:");
+        String input = scan.nextLine();
+
+        Buyable itemToReturn = null;
+        for (Buyable item : myInventory) {
+            if (item.getItemName().equalsIgnoreCase(input)) {
+                itemToReturn = item;
+            }
+        }
+        
+        if (itemToReturn != null) {
+            returnItemToStore(itemToReturn);
+        } else {
+            System.out.println("Item doesn't exist in your inventory");
+        }
+
+        // TODO 5a: You can only return the most recent 3 purchases (depends on TODO 4a)
     }
 
     private void reviewMyInventory() {
@@ -403,6 +416,13 @@ public class Store {
         } else {
             System.out.println("You can't afford that item ... ");
         }
+    }
+
+    private void returnItemToStore(Buyable item) {
+        myBankAccount.depositMoney(item.getPrice());
+        System.out.println("Return complete!");
+        myInventory.remove(item);
+        storeInventory.restockItemToInventory(item);
     }
 
     private void makePurchaseFromShoppingCart(Buyable item) {
