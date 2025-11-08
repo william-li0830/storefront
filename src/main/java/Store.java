@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class Store {
 
-    private static final String ADMIN_PASSWORD = "password";
     Scanner scan = new Scanner(System.in);
 
     // User data variables
@@ -44,7 +43,7 @@ public class Store {
                     isValidInput = true;
                     break;
                 case 2:
-                    adminPortal();
+                    new AdminPortal(scan);
                     isValidInput = true;
                     break;
                 default:
@@ -199,7 +198,7 @@ public class Store {
 
     private void returnItem() {
         ArrayList<Buyable> recentPurchases = storeInventory.getRecentPurchases();
-        
+
         if (recentPurchases.isEmpty()) {
             System.out.println("You have nothing to return");
             // Stop this function right away
@@ -210,7 +209,7 @@ public class Store {
         for (Buyable item : recentPurchases) {
             System.out.println(item.getItemName());
         }
-        
+
         System.out.println();
         System.out.println("Type in the name of item you want to return:");
         String input = scan.nextLine();
@@ -221,7 +220,7 @@ public class Store {
                 itemToReturn = item;
             }
         }
-        
+
         if (itemToReturn != null) {
             returnItemToStore(itemToReturn);
         } else {
@@ -292,62 +291,6 @@ public class Store {
 
     private void reviewFinancials() {
         myBankAccount.balanceReport();
-    }
-
-    private void adminPortal() {
-        System.out.println("Welcome to the Admin Portal");
-        System.out.println("Please enter a password");
-        String password = scan.nextLine();
-        if (!password.equals(ADMIN_PASSWORD)) {
-            System.out.println("Passwords do not match ... ");
-            adminPortal();
-            // TODO 6a: Require the user to login as admin from the start of the program 
-            // and only show that menu option if that is the account they log in under.
-        } else {
-
-            System.out.println("Select an option");
-            System.out.println("1. Review inventory");
-            System.out.println("2. Add items to inventory");
-
-            // TODO 6: 
-            // Access the store’s database as an ‘Administrator’ and add custom items to its
-            // inventory
-            // equire the user to login as admin from the start of the program and only show
-            // that menu option if that is the account they log in under.
-            // Example:
-            // Please enter admin password:
-            // If password is correct, give a another set of menu
-            // 1. Review all items in inventory
-            // 2. Add items to inventory
-            // 3. Remove items from 
-            System.out.println("Which of these categories do you want to add items to?");
-            System.out.println("1. Food");
-            System.out.println("2. Clothes");
-            System.out.println("3. Games");
-            System.out.println("4. Electronics");
-
-            int input = scan.nextInt();
-
-            switch (input) {
-                case 1:
-//                addItemsToFood();
-                    break;
-                case 2:
-//                addItemsToGames();
-                    break;
-
-                case 3:
-//                addItemsToClothing();
-                    break;
-                case 4:
-//                addItemsToElectronics();
-                    break;
-                default:
-                    System.out.println("Incorrect choice");
-                    break;
-            }
-
-        }
     }
 
     // SHOPPING CART METHODS
