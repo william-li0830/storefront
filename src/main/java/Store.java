@@ -198,8 +198,16 @@ public class Store {
     }
 
     private void returnItem() {
+        ArrayList<Buyable> recentPurchases = storeInventory.getRecentPurchases();
+        
+        if (recentPurchases.isEmpty()) {
+            System.out.println("You have nothing to return");
+            // Stop this function right away
+            return;
+        }
+
         System.out.println("Here are items you can return");
-        for (Buyable item : myInventory) {
+        for (Buyable item : recentPurchases) {
             System.out.println(item.getItemName());
         }
         
@@ -208,7 +216,7 @@ public class Store {
         String input = scan.nextLine();
 
         Buyable itemToReturn = null;
-        for (Buyable item : myInventory) {
+        for (Buyable item : recentPurchases) {
             if (item.getItemName().equalsIgnoreCase(input)) {
                 itemToReturn = item;
             }
@@ -217,10 +225,8 @@ public class Store {
         if (itemToReturn != null) {
             returnItemToStore(itemToReturn);
         } else {
-            System.out.println("Item doesn't exist in your inventory");
+            System.out.println("Item doesn't exist in your recent purchases");
         }
-
-        // TODO 5a: You can only return the most recent 3 purchases (depends on TODO 4a)
     }
 
     private void reviewMyInventory() {
@@ -422,7 +428,7 @@ public class Store {
         myBankAccount.depositMoney(item.getPrice());
         System.out.println("Return complete!");
         myInventory.remove(item);
-        storeInventory.restockItemToInventory(item);
+        storeInventory.returnPurchasedItem(item);
     }
 
     private void makePurchaseFromShoppingCart(Buyable item) {

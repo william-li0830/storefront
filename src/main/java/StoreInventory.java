@@ -66,6 +66,11 @@ public class StoreInventory {
             soldItems.add(item);
         }
     }
+
+    public void returnPurchasedItem(Buyable item) {
+        restockItemToInventory(item);
+        soldItems.remove(item);
+    }
     
     public ArrayList<Buyable> getRecentPurchases() {
         ArrayList<Buyable> recentPurchases = new ArrayList<>();
