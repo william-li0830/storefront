@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Store {
 
+    private static final String ADMIN_PASSWORD = "password";
     Scanner scan = new Scanner(System.in);
 
     // User data variables
@@ -17,9 +18,40 @@ public class Store {
 
     public Store() {
         System.out.println("Welcome to my storefont!");
-        setupAccounts();
-        setupStore();
-        presentShoppingMenu();
+        login();
+    }
+
+    private void login() {
+        boolean isValidInput = false;
+
+        while (!isValidInput) {
+            System.out.println("1. Customer login");
+            System.out.println("2. Admin login");
+
+            int choice = 0;
+            try {
+                choice = scan.nextInt();
+                scan.nextLine();
+            } catch (Exception e) {
+                System.err.println("Invalid input");
+            }
+
+            switch (choice) {
+                case 1:
+                    setupAccounts();
+                    setupStore();
+                    presentShoppingMenu();
+                    isValidInput = true;
+                    break;
+                case 2:
+                    adminPortal();
+                    isValidInput = true;
+                    break;
+                default:
+                    System.err.println("Invalid choice");
+                    break;
+            }
+        }
     }
 
     private void setupAccounts() {
@@ -53,8 +85,17 @@ public class Store {
             System.out.println("7. YOUR CUSTOM IDEA HERE??");
             System.out.println("8. Exit program");
 
-            int input = scan.nextInt();
-            scan.nextLine(); // buffer clear
+            int input;
+
+            try {
+                input = scan.nextInt();
+                scan.nextLine();
+            } catch (Exception e) {
+                System.err.println("Invalid input: try again");
+                scan.nextLine();
+                // It skips the rest and loops again
+                continue;
+            }
 
             switch (input) {
                 case 1:
@@ -69,12 +110,11 @@ public class Store {
                 case 4:
                     reviewMyInventory();
                     break;
-                // ML: swap case 5 and case 6
                 case 5:
-                    reviewFinancials();
+                    viewRecentPurchases();
                     break;
                 case 6:
-                    viewRecentPurchases();
+                    reviewFinancials();
                     // report the 3 (or fewer) most recent items
                     break;
                 case 7:
@@ -85,25 +125,12 @@ public class Store {
                     // Inventory - add the item back to the inventory
                     // TODO 5a: You can only return the most recent 3 purchases (depends on TODO 4a)
                     break;
-                case 8:
-                    // TODO 6: adminPortal();
-                    // Access the store’s database as an ‘Administrator’ and add custom items to its
-                    // inventory
-                    // equire the user to login as admin from the start of the program and only show
-                    // that menu option if that is the account they log in under.
-                    // Example:
-                    // Please enter admin password:
-                    // If password is correct, give a another set of menu
-                    // 1. Review all items in inventory
-                    // 2. Add items to inventory
-                    // 3. Remove items from inventory
 
-                    break;
-                case 9:
+                case 8:
                     // TODO 7: custom idea
                     System.out.println("YOUR CONTENT HERE! :) :)");
                     break;
-                case 10:
+                case 9:
                     System.out.println("Thanks for shopping! Now exiting program ... ");
                     System.exit(0);
                     break;
@@ -111,33 +138,24 @@ public class Store {
                     System.out.println("Incorrect input. Choose again!");
                     break;
             }
-
         }
     }
 
     private void viewCatalog() {
-        // System.out.println("Here is a list of all the items currently for sale!");
-
-
-        System.out.println("1.View by name");
-        System.out.println("2.View by type");
-        System.out.println("3.View by price");
+        System.out.println("1.View all by name");
+        System.out.println("2.View by category");
 
         int input = scan.nextInt();
 
-        // TODO 2: choose which sub-catalog they want to view individually.
         switch (input) {
             case 1:
-                vewCatalogByName();
+                viewAllCatalog();
                 break;
             case 2:
-                viewCatalogByType();
-                break;
-            case 3:
-                viewCatalogByPrice();
+                viewCatalogByCategory();
                 break;
             default:
-                System.out.println("Incorrect input. Choose again!");
+                System.out.println("Incorrect choice");
                 break;
         }
 
@@ -147,13 +165,6 @@ public class Store {
         // 3. Enter the name of the item for more details
         // Retrieve the master list from the store inventory and examine each entry
         // individually
-
-        // for (Buyable item : storeInventory.getFullInventoryList()) {
-        // System.out.println("" + item.getItemName());
-        // }
-        // System.out.println("" + myInventory.get(i).getItemName());
-        // System.out.println("" + myInventory.get(i).getPrice());
-        // System.out.println("" + myInventory.get(i).getItemCategory());
     }
 
     private void buyItem() {
@@ -198,36 +209,90 @@ public class Store {
 
     }
 
+    // TODO 3: Instead of just reporting everything the user has bought all at once, 
+    // provide a more customized experience that gives the user more choice and information when reviewing their stuff.
     private void reviewMyInventory() {
-        // TODO 3: gives the user more choice and information when reviewing their stuff
-        // Example: price, custom property, purchase time (optional)
-
         // TODO 3a: create the menuing needed for the user to view any detail of every
         // item they own.
         // Hint: Use methods to create sub-menus for categories of things.
-        // 1. View all items
-        // 2. View by type
+        // 1. View all items - no details, just name
+        // 2. View by type - same as viewcatalg
         // // 1. Clothing
-        // 2. Food
-        // 3. Type in the item for more details
+        // // 2. Food
+        // 3. Type in the item for more details - scan -> printItemDetails
         System.out.println("Here is a list of the items you now own: ");
-        for (int i = 0; i < myInventory.size(); i++) {
-            // ML: print them on one line
-            System.out.println("" + myInventory.get(i).getItemName());
-            System.out.println("" + myInventory.get(i).getPrice());
-            System.out.println("" + myInventory.get(i).getItemCategory());
+        for (Buyable item : myInventory) {
+            printItemDetails(item);
         }
     }
 
     private void viewRecentPurchases() {
         System.out.println("You recently purchased: ");
-        for (int i = 0; i <= 3; i++) {
-            System.out.println("" + myInventory.get(i).getItemName());
+        for (Buyable item : storeInventory.getRecentPurchases()) {
+            printItemDetails(item);
         }
     }
 
     private void reviewFinancials() {
         myBankAccount.balanceReport();
+    }
+
+
+    private void adminPortal() {
+        System.out.println("Welcome to the Admin Portal");
+        System.out.println("Please enter a password");
+        String password = scan.nextLine();
+        if (!password.equals(ADMIN_PASSWORD)) {
+            System.out.println("Passwords do not match ... ");
+            adminPortal();
+            // TODO 6a: Require the user to login as admin from the start of the program 
+            // and only show that menu option if that is the account they log in under.
+        } else {
+
+            System.out.println("Select an option");
+            System.out.println("1. Review inventory");
+            System.out.println("2. Add items to inventory");
+
+            // TODO 6: 
+            // Access the store’s database as an ‘Administrator’ and add custom items to its
+            // inventory
+            // equire the user to login as admin from the start of the program and only show
+            // that menu option if that is the account they log in under.
+            // Example:
+            // Please enter admin password:
+            // If password is correct, give a another set of menu
+            // 1. Review all items in inventory
+            // 2. Add items to inventory
+            // 3. Remove items from 
+            
+            System.out.println("Which of these categories do you want to add items to?");
+            System.out.println("1. Food");
+            System.out.println("2. Clothes");
+            System.out.println("3. Games");
+            System.out.println("4. Electronics");
+
+            int input = scan.nextInt();
+
+            switch (input) {
+                case 1:
+//                addItemsToFood();
+                    break;
+                case 2:
+//                addItemsToGames();
+                    break;
+
+                case 3:
+//                addItemsToClothing();
+                    break;
+                case 4:
+//                addItemsToElectronics();
+                    break;
+                default:
+                    System.out.println("Incorrect choice");
+                    break;
+            }
+
+        }
     }
 
     // SHOPPING CART METHODS
@@ -250,7 +315,6 @@ public class Store {
         } else {
             System.out.println("Your shopping cart is empty! Nothing to see here ... ");
         }
-
     }
 
     private void buyItemInShoppingCart() {
@@ -265,7 +329,6 @@ public class Store {
                 System.out.println("Item could not be found in shopping cart.");
             }
         }
-
     }
 
     private void removeItemFromShoppingCart(Buyable item) {
@@ -318,16 +381,54 @@ public class Store {
         }
     }
 
-    // ML: implement these functions
-    private void vewCatalogByName() {
+    private void viewAllCatalog() {
         System.out.println("Here are the items by name: ");
+        for (Buyable item : storeInventory.getFullInventoryList()) {
+            System.out.println(item.getItemName());
+        }
     }
 
-    private void viewCatalogByType() {
-        System.out.println("Here are the items by type: ");
+    private void viewCatalogByCategory() {
+        System.out.println("Select from the following: ");
+        System.out.println("1. Food");
+        System.out.println("2. Clothing");
+        System.out.println("3. Game");
+        System.out.println("4. Electronics");
+
+        int input = scan.nextInt();
+        scan.nextLine();
+
+        String category;
+        switch (input) {
+            case 1:
+                category = "Food";
+                break;
+            case 2:
+                category = "Clothing";
+                break;
+            case 3:
+                category = "Game";
+                break;
+            case 4:
+                category = "Electronics";
+                break;
+            default:
+                category = "";
+                System.err.println("Invalid choice");
+                break;
+        }
+
+        for (Buyable item : storeInventory.getFullInventoryList()) {
+            if (item.getItemCategory().equals(category)) {
+                System.out.println(item.getItemName());
+            }
+        }
     }
 
-    private void viewCatalogByPrice() {
-        System.out.println(" Here are items by price: ");
+    private void printItemDetails(Buyable item) {
+        String name = item.getItemName();
+        double price = item.getPrice();
+        String category = item.getItemCategory();
+        System.out.println(name + ": $" + price + " (" + category + ")");
     }
 }

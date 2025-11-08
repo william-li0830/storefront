@@ -12,9 +12,8 @@ public class StoreInventory {
     private ArrayList<BuyableFood> foodForSale = new ArrayList<BuyableFood>();
     private ArrayList<BuyableGame> gamesForSale = new ArrayList<BuyableGame>();
     private ArrayList<BuyableElectronics> electronicsForSale = new ArrayList<BuyableElectronics>();
-    private ArrayList<Buyable> recentPurchases = new ArrayList<Buyable>();
-    // ML: private, no static
-    public static ArrayList<Buyable> soldItems = new ArrayList<Buyable>();
+
+    private ArrayList<Buyable> soldItems = new ArrayList<Buyable>();
 
     public StoreInventory() {
         populateClothesInventory();
@@ -51,15 +50,6 @@ public class StoreInventory {
         return fullInventory;
     }
 
-    // TODO 4: create a separate database to keep track of items that have been sold (give it a memory).
-    // If isPurchased is true, add the item in itemsSold list
-    // TODO 4a: viewRecentPurchases();
-    // report the 3 (or fewer) most recent items they bought in the store
-    // Example:
-    //     Implement a getter function "getRecentPurchases()"
-    //     - Get the last three items from itemsSold 
-    //           int numberOfItems = itemsSold.size();
-    //           Buyable lastItem = itemsSold.get(numberOfItems);
     public void removeItemFromInventory(Buyable item, boolean isPurchased) {
 
         if (item instanceof BuyableClothing) {
@@ -71,28 +61,29 @@ public class StoreInventory {
         } else if (item instanceof BuyableElectronics) {
             electronicsForSale.remove((BuyableElectronics) item);
         }
-    }
-    //isPurchased  = true;
 
-    // ML: just getItemsSold(), no arguments needed
-    public ArrayList<Buyable> getItemsSold(Buyable item, boolean isPurchased) {
-
-        // ML: return the items from the soldItems list
-        if (isPurchased = true) {
-            System.out.println("Sold items: ");
-            System.out.println(soldItems);
+        if (isPurchased) {
+            soldItems.add(item);
         }
-        return soldItems;
     }
-
-    public void viewRecentPurchases() {
-        // ML: incomplete, recentPurchases is always empty
-        System.out.println("Recently purchased: ");
-        getRecentPurchases();
-        System.out.println(recentPurchases);
-    }
-
+    
     public ArrayList<Buyable> getRecentPurchases() {
+        ArrayList<Buyable> recentPurchases = new ArrayList<>();
+        
+        int numberOfItems = soldItems.size();
+
+        if (numberOfItems <= 3) {
+            recentPurchases = soldItems;
+        } else {
+            Buyable lastItem = soldItems.get(numberOfItems - 1);
+            Buyable secondLastItem = soldItems.get(numberOfItems - 2);
+            Buyable thirdLastItem = soldItems.get(numberOfItems - 3);
+
+            recentPurchases.add(thirdLastItem);
+            recentPurchases.add(secondLastItem);
+            recentPurchases.add(lastItem);
+        }
+
         return recentPurchases;
     }
 
@@ -102,10 +93,10 @@ public class StoreInventory {
         } else if (item instanceof BuyableFood) {
             foodForSale.add((BuyableFood) item);
         } else if (item instanceof BuyableGame) {
-            // ML: change remove to add
-            foodForSale.remove((BuyableGame) item);
+            gamesForSale.add((BuyableGame) item);
+        } else if (item instanceof BuyableElectronics) {
+            electronicsForSale.add((BuyableElectronics) item);
         }
-        // ML: add electronics here
     }
 
     // Methods to populate the inventory
@@ -168,8 +159,7 @@ public class StoreInventory {
     }
 
     private void populateEletronicsInventory() {
-        //Apliances
-
+        //Appliances
         BuyableElectronics fridge = new BuyableElectronics(2199.99, "Fridge", "Samsung");
         electronicsForSale.add(fridge);
         BuyableElectronics fridgeLG = new BuyableElectronics(2199.99, "Fridge", "LG");
@@ -200,7 +190,6 @@ public class StoreInventory {
     private void addMultiple(Buyable item, int numberToAdd) {
         if (item instanceof BuyableClothing) {
             for (int i = 0; i < numberToAdd; i++) {
-
                 clothesForSale.add((BuyableClothing) item);
             }
         } else if (item instanceof BuyableFood) {
@@ -211,8 +200,10 @@ public class StoreInventory {
             for (int i = 0; i < numberToAdd; i++) {
                 gamesForSale.add((BuyableGame) item);
             }
+        } else if (item instanceof BuyableElectronics) {
+            for (int i = 0; i < numberToAdd; i++) {
+                electronicsForSale.add((BuyableElectronics) item);
+            }
         }
-
-        // ML: add electronics here
     }
 }
