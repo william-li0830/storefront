@@ -17,6 +17,7 @@ public class Store {
 
     public Store() {
         System.out.println("Welcome to my storefont!");
+        setupStore();
         login();
     }
 
@@ -27,23 +28,16 @@ public class Store {
             System.out.println("1. Customer login");
             System.out.println("2. Admin login");
 
-            int choice = 0;
-            try {
-                choice = scan.nextInt();
-                scan.nextLine();
-            } catch (Exception e) {
-                System.err.println("Invalid input");
-            }
+            String choice = scan.nextLine();
 
             switch (choice) {
-                case 1:
+                case "1":
                     setupAccounts();
-                    setupStore();
                     presentShoppingMenu();
                     isValidInput = true;
                     break;
-                case 2:
-                    new AdminPortal(scan);
+                case "2":
+                    new AdminPortal(scan, storeInventory);
                     isValidInput = true;
                     break;
                 default:
@@ -66,7 +60,7 @@ public class Store {
     private void setupBankAccount() {
         System.out.println("To begin, please set up a bank account.");
         System.out.println("How much money should your account contain?");
-        int depositAmount = scan.nextInt();
+        int depositAmount = ScannerHelper.getValidInteger(scan);
         myBankAccount = new BankAccount(depositAmount);
     }
 
@@ -126,6 +120,9 @@ public class Store {
                     System.out.println("Incorrect input. Choose again!");
                     break;
             }
+
+            System.out.print("\n**Press ENTER to go back to MAIN MENU**");
+            scan.nextLine();
         }
     }
 
@@ -150,10 +147,7 @@ public class Store {
 
         // TODO 2a: provide the user another menu to choose which specific item they
         // want to view more details about individually.
-        // Retrieve the master list for example:
-        // 3. Enter the name of the item for more details
-        // Retrieve the master list from the store inventory and examine each entry
-        // individually
+        // Refer to reviewMyInventory()
     }
 
     private void buyItem() {
