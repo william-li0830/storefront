@@ -1,6 +1,9 @@
 
 import buyable.Buyable;
+import buyable.BuyableClothing;
 import buyable.BuyableFood;
+import buyable.BuyableGame;
+import buyable.BuyableElectronics;
 import java.util.Scanner;
 
 /**
@@ -9,7 +12,7 @@ import java.util.Scanner;
  */
 public class AdminPortal {
 
-    private static final String ADMIN_PASSWORD = "password";
+    private static final String ADMIN_PASSWORD = "hello world";
     private final Scanner scan;
     private final StoreInventory storeInventory;
 
@@ -59,8 +62,22 @@ public class AdminPortal {
 
     // TODO: print more details, refer to view catalog
     private void viewInventory() {
-        for (Buyable item : storeInventory.getFullInventoryList()) {
-            System.out.println(item.getItemName());
+        System.out.println("1. View all by name");
+        System.out.println("2. View by category");
+
+        String input = scan.nextLine();
+
+        switch (input) {
+            case "1":
+                viewInventoryByName();
+                break;
+            case "2":
+                viewInventoryByCategory();
+                break;
+            default:
+                System.out.println("Invalid choice: choose again!");
+                viewInventory();
+                break;
         }
     }
 
@@ -73,18 +90,19 @@ public class AdminPortal {
 
         String input = scan.nextLine().toLowerCase();
 
+        // TODO: finish restocking
         switch (input) {
             case "food":
                 addFoodToInventory();
                 break;
             case "clothing":
-//                addClothingToInventory();
+                addClothingToInventory();
                 break;
             case "game":
-//                addGameToInventory();
+                addGameToInventory();
                 break;
             case "electronics":
-//                addElectronicsToInventory();
+                addElectronicsToInventory();
                 break;
             default:
                 System.out.println("Incorrect choice, try again");
@@ -98,7 +116,7 @@ public class AdminPortal {
         String name = scan.nextLine();
 
         System.out.println("Enter price:");
-        int price = ScannerHelper.getValidInteger(scan);
+        double price = ScannerHelper.getValidDouble(scan);
 
         System.out.println("Enter weight in grams:");
         double weight = ScannerHelper.getValidDouble(scan);
@@ -109,5 +127,85 @@ public class AdminPortal {
 
         System.out.print(name + ": $" + price + " (" + weight + "g" + ")");
         System.out.println(" added to inventory");
+    }
+
+    private void addClothingToInventory() {
+        System.out.println("Enter name:");
+        String name = scan.nextLine();
+
+        System.out.println("Enter price:");
+        double price = ScannerHelper.getValidDouble(scan);
+
+        System.out.println("Enter size:");
+        String size = scan.nextLine();
+
+        BuyableClothing clothing = new BuyableClothing(price, name, size);
+        storeInventory.restockItemToInventory(clothing);
+
+        System.out.print(name + ": $" + price + " (" + size + ")");
+        System.out.println(" added to inventory");
+    }
+
+    private void addGameToInventory() {
+        System.out.println("Enter name:");
+        String name = scan.nextLine();
+
+        System.out.println("Enter price:");
+        double price = ScannerHelper.getValidDouble(scan);
+
+        System.out.println("Enter nmuber of players:");
+        int numPlayers = ScannerHelper.getValidInteger(scan);
+
+        System.out.println("Enter genre:");
+        String genre = scan.nextLine();
+
+        BuyableGame game = new BuyableGame(price, name, numPlayers, genre);
+        storeInventory.restockItemToInventory(game);
+
+        System.out.print(name + ": $" + price + ":" + numPlayers + ":" + genre);
+        System.out.println(" added to inventory");
+    }
+
+    private void addElectronicsToInventory() {
+        System.out.println("Enter name:");
+        String name = scan.nextLine();
+
+        System.out.println("Enter price:");
+        double price = ScannerHelper.getValidDouble(scan);
+
+        System.out.println("Enter brand:");
+        String brand = scan.nextLine();
+
+        BuyableElectronics electronics = new BuyableElectronics(price, name, brand);
+        storeInventory.restockItemToInventory(electronics);
+
+        System.out.print(name + ": $" + price + ":" + brand);
+        System.out.println(" added to inventory");
+    }
+
+    private void viewInventoryByName() {
+
+        System.out.println("Here are the items by name: ");
+        for (Buyable item : storeInventory.getFullInventoryList()) {
+            System.out.println(item.getItemName());
+        }
+    }
+
+    private void viewInventoryByCategory() {
+
+        System.out.println("Select from the following: ");
+        System.out.println("Food");
+        System.out.println("Clothing");
+        System.out.println("Game");
+        System.out.println("Electronics");
+
+        String category = scan.nextLine();
+
+        for (Buyable item : storeInventory.getFullInventoryList()) {
+            if (item.getItemCategory().equalsIgnoreCase(category)) {
+                System.out.println(item.getItemName());
+
+            }
+        }
     }
 }

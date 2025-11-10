@@ -167,20 +167,12 @@ public class StoreInventory {
         //Appliances
         BuyableElectronics fridge = new BuyableElectronics(2199.99, "Fridge", "Samsung");
         electronicsForSale.add(fridge);
-        BuyableElectronics fridgeLG = new BuyableElectronics(2199.99, "Fridge", "LG");
-        electronicsForSale.add(fridgeLG);
-        BuyableElectronics dishWasherLG = new BuyableElectronics(699.99, "Dish washer", "LG");
-        electronicsForSale.add(dishWasherLG);
         BuyableElectronics dishWasher = new BuyableElectronics(799.99, "Dish washer", "Samsung");
         electronicsForSale.add(dishWasher);
 
         // Comupters
         BuyableElectronics laptop = new BuyableElectronics(1399.99, "Laptop", "Asus");
         electronicsForSale.add(laptop);
-        BuyableElectronics laptopApple = new BuyableElectronics(2099.99, "Laptop", "Apple");
-        electronicsForSale.add(laptopApple);
-        BuyableElectronics desktop = new BuyableElectronics(1249.99, "Desktop", "Lenovo");
-        electronicsForSale.add(desktop);
         BuyableElectronics desktopROG = new BuyableElectronics(2499.99, "Desktop", "ROG");
         electronicsForSale.add(desktopROG);
 
