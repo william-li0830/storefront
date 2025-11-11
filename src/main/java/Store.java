@@ -129,6 +129,7 @@ public class Store {
     private void viewCatalog() {
         System.out.println("1. View all by name");
         System.out.println("2. View by category");
+        System.out.println("3. Type item name for more details");
 
         String input = scan.nextLine();
 
@@ -139,6 +140,22 @@ public class Store {
             case "2":
                 viewCatalogByCategory();
                 break;
+            case "3":
+                System.out.println("Type in item name");
+
+                String userInput = scan.nextLine();
+                boolean itemFound = false;
+
+                for (Buyable item : storeInventory.getFullInventoryList()) {
+                    if (item.getItemName().equalsIgnoreCase(userInput)) {
+                        printItemDetails(item);
+                        itemFound = true;
+                    }
+                }
+
+                if (!itemFound) {
+                    System.out.println("Item doesn't exist");
+                }
             default:
                 System.out.println("Invalid choice: choose again!");
                 viewCatalog();
