@@ -1,3 +1,5 @@
+package buyable;
+
 
 public class BuyableFood extends Buyable {
 
