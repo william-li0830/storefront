@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 /**
@@ -21,8 +20,7 @@ public class ScannerHelper {
                 System.err.println("Not an integer, try again");
             }
         }
-
-        return value;
+       return value;
     }
 
     public static double getValidDouble(Scanner scanner) {
@@ -38,7 +36,6 @@ public class ScannerHelper {
                 System.err.println("Not a double value, try again");
             }
         }
-
         return value;
     }
 }

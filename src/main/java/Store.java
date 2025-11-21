@@ -1,4 +1,3 @@
-
 import buyable.Buyable;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -156,10 +155,12 @@ public class Store {
                 if (!itemFound) {
                     System.out.println("Item doesn't exist");
                 }
+                break;
             default:
                 System.out.println("Invalid choice: choose again!");
                 viewCatalog();
                 break;
+                
         }
 
         // TODO 2a: provide the user another menu to choose which specific item they
@@ -288,8 +289,8 @@ public class Store {
             default:
                 System.out.println("Invalid choice: choose again!");
                 reviewMyInventory();
-                break;
 
+                break;
         }
     }
 
@@ -365,8 +366,8 @@ public class Store {
         storeInventory.restockItemToInventory(item);
         myShoppingCart.remove(item);
     }
-
-    private void makePurchaseFromStore(Buyable item) {
+    
+      private void makePurchaseFromStore(Buyable item) {
         // If you can afford the item, buy it and remove it from the store
         if (myBankAccount.canAfford(item.getPrice())) {
             myBankAccount.makePurchase(item.getPrice());
@@ -377,6 +378,7 @@ public class Store {
             System.out.println("You can't afford that item ... ");
         }
     }
+
 
     private void returnItemToStore(Buyable item) {
         myBankAccount.depositMoney(item.getPrice());

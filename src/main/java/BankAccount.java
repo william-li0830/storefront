@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class BankAccount {
@@ -72,6 +71,7 @@ public class BankAccount {
             return true;
         } else {
             System.out.println("Incorrect password!");
+            checkPassword();
             return false;
         }
     }
