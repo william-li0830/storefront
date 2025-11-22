@@ -366,14 +366,17 @@ public class Store {
         storeInventory.restockItemToInventory(item);
         myShoppingCart.remove(item);
     }
-    
-      private void makePurchaseFromStore(Buyable item) {
+
+    private void makePurchaseFromStore(Buyable item) {
         // If you can afford the item, buy it and remove it from the store
         if (myBankAccount.canAfford(item.getPrice())) {
-            myBankAccount.makePurchase(item.getPrice());
-            System.out.println("Purchase complete! You now own " + item.getItemName());
-            myInventory.add(item);
-            storeInventory.removeItemFromInventory(item, true);
+            // Teacher's template doesnt check whether it's actually purchased
+            boolean isPurchased = myBankAccount.makePurchase(item.getPrice());
+            if (isPurchased) {
+                System.out.println("Purchase complete! You now own " + item.getItemName());
+                myInventory.add(item);
+                storeInventory.removeItemFromInventory(item, true);
+            }
         } else {
             System.out.println("You can't afford that item ... ");
         }
