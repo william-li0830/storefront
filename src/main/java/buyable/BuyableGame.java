@@ -1,3 +1,5 @@
+package buyable;
+
 
 public class BuyableGame extends Buyable {
 
@@ -17,5 +19,4 @@ public class BuyableGame extends Buyable {
     public String getGenre() {
         return genre;
     }
-    
 }
